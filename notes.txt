@@ -1,0 +1,9 @@
+DMT by Chuki Beats works with:
+    * sampling rate = 22050
+    * rolling count = 20
+    * percentile = 0.993
+    * jump_size_cutoff = 300
+
+Mud by TYPEBEATZ works with:
+    * same except
+    * jump_size_cutoff = 1000
