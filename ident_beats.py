@@ -1,7 +1,7 @@
 import numpy as np, pandas as pd
 from sklearn.cluster import k_means
 
-import datetime as dt
+import datetime as dt, time
 
 def play_beats(beat_midpoints, i):
 
@@ -13,7 +13,7 @@ def find_beats(stream_data_arr):
     """current time master fn
     """
 
-    start = dt.datetime.now()
+    start = time.time()
 
     df = (
         pd.Series(
@@ -30,7 +30,8 @@ def find_beats(stream_data_arr):
 
     beat_midpoints = loc_beat_midpoints(df)
 
-    runtime_delta = dt.datetime.now() - start
+    # runtime_delta = (dt.datetime.now() - start).seconds
+    runtime_delta = time.time() - start
 
     return beat_midpoints, runtime_delta
 
