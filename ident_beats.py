@@ -44,7 +44,7 @@ def loc_beat_midpoints(df, jump_size_cutoff=1e4):
         jump_size_cutoff (int): minimum timestep distance between beats
     """
 
-    db_cutoff = df.abs_db.quantile(.999)
+    db_cutoff = df.abs_db.quantile(.99)
     beat_inds = pd.Series(df[df.abs_db > db_cutoff].index)
 
     timestamp_jump_sizes = abs(np.array(beat_inds - beat_inds.shift(1).iloc[1:], dtype="int32"))
