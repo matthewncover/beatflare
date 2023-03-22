@@ -38,19 +38,6 @@ class Pico:
     def close(self):
         self.serial.close()
 
-    #### send methods
-
-    def fill_show_die(self, rgb=None):
-
-        if not rgb:
-            rgb = rgb_dict[np.random.choice(list(rgb_dict.keys()))]
-
-        self.send(f"leds.fill_show(pxls=leds.die_pxls, rgb={rgb})")
-
-    def clear(self):
-
-        self.send("leds.clear()")
-
 
 class LEDPico(Pico):
 
@@ -63,24 +50,33 @@ class LEDPico(Pico):
         self.send("from main import LEDS")
         self.send("x = LEDS()")
 
-    def _set(self, command:list):
-        """expecting a list of 5 tuples like
-        (1, (200, 0, 0))
+    def _set(self, rgb_array:list):
+        """expecting a 5x3 array / nested list
         """
-        self.send(f"x._set({command})")
+        self.send(f"x._set({rgb_array})")
+
+    def off(self):
+
+        self.send("x.all_off()")
 
 if __name__ == "__main__":
 
-    import time
+    import time, json
+    import numpy as np
     x = LEDPico()
 
-    all_purple = [(x, (150, 0, 150)) for x in range(1,6)]
-    all_white = [(x, (150, 150, 150)) for x in range(1,6)]
-    all_orange = [(x, (128, 12, 0)) for x in range(1,6)]
-    x._set(all_purple)
-    time.sleep(1)
-    x._set(all_white)
-    time.sleep(1)
-    x._set(all_orange)
+    with open("./color_to_rgb.json") as f:
+        color_dict = json.load(f)
 
+    rgb_arr = np.random.choice([0, 0, 128, 200, 200], (5, 3))
+    n_fades = 8
+    delta = rgb_arr // n_fades
+    empty_arr = np.zeros(rgb_arr.shape)
+    for _ in range(n_fades):
+        rgb_arr = np.maximum(rgb_arr - delta, 0)
+
+        x._set(rgb_arr.tolist())
+        time.sleep(.025)
+    
+    x.off()
     x.close()
