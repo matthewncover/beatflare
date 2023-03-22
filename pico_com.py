@@ -1,21 +1,8 @@
 import serial
 import numpy as np
 
-#### Colors
-
-rgb_dict = {
-    "white":    (200, 200, 200),
-    "red":      (200,   0,   0),
-    "green":    (  0, 200,   0),
-    "blue":     (  0,   0, 200),
-    "teal":     (  0, 200, 200),
-    "purple":   (200,   0, 200),
-    "lime":     (200, 200,   0),
-    "orange":   (128,  12,   0)
-}
-
 # from https://blog.rareschool.com/2021/01/controlling-raspberry-pi-pico-using.html
-class Pico:
+class PicoCom:
     TERMINATOR = '\n'.encode("UTF8")
 
     def __init__(self, device="COM3", baud=115200, timeout=1):
@@ -39,7 +26,7 @@ class Pico:
         self.serial.close()
 
 
-class LEDPico(Pico):
+class LEDPicoCom(PicoCom):
 
     def __init__(self):
 
@@ -63,7 +50,7 @@ if __name__ == "__main__":
 
     import time, json
     import numpy as np
-    x = LEDPico()
+    x = LEDPicoCom()
 
     with open("./color_to_rgb.json") as f:
         color_dict = json.load(f)
