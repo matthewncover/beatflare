@@ -54,7 +54,7 @@ class Lights:
 
         self.pico.off()
 
-    def stagger(self):
+    def stagger(self, t=.2):
         """WIP
         """
 
@@ -63,17 +63,25 @@ class Lights:
             rgb_arr[~(np.arange(self.arr.shape[0]) == i)] = [0,0,0]
 
             self.pico._set(rgb_arr.tolist())
-            time.sleep(.2)
+            time.sleep(t)
 
 
 if __name__ == "__main__":
 
-    lights = Lights()
-    
-    lights._set('orange', [1,3,5])
-    lights.fade()
-    time.sleep(.7)
-    lights._fill('purple', [2, 4]) #that's cool
-    lights.fade()
+    for _ in range(100):
+        lights = Lights()
+        
+        colors = list(lights.rgb_dict.keys())
+        color1 = np.random.choice(colors)
 
-    lights.pico.close()
+        color2 = np.random.choice(colors)
+        while color2 == color1:
+            color2 = np.random.choice(colors)
+
+        lights._set(color1, [1,3,5])
+        lights.fade()
+        time.sleep(.05)
+        lights._fill(color2, [2, 4]) #that's cool
+        lights.fade()
+
+        lights.pico.close()
