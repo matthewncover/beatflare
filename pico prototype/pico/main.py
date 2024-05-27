@@ -18,7 +18,7 @@ class LEDS:
     def __init__(self):
 
         self.led_dict = {
-            led_no+1: {
+            led_no: {
                 rgb: PWM(Pin(pin_no)) 
                 for (rgb, pin_no) in zip('rgb', self.pin_numbers[led_no])
                 } 
@@ -26,13 +26,10 @@ class LEDS:
             }
 
     def _set(self, rgb_set:list):
-        """expecting list in the form of:
-        [(1, (r, g, b)), (2, (r, g, b)), ..., (5, (r, g, b))]
-
-        expecting all five. pad with zeros
+        """expecting a nested list of 5 rgb triples
         """
         
-        for led_no, rgb in rgb_set:
+        for led_no, rgb in enumerate(rgb_set):
             for rgb_name, rgb_val in zip('rgb', rgb):
                 self.led_dict[led_no][rgb_name].duty_u16(rtd(rgb_val))
 

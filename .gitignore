@@ -2,9 +2,8 @@
 *sandbox*
 *.npy
 .vscode
-*main_with_pain.py
-*micropython_rgb_with_pain.py
 .picowgo
+/2022 attempt/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
