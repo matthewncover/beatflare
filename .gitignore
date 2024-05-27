@@ -4,6 +4,7 @@
 .vscode
 .picowgo
 /2022 attempt/*
+deploy.sh
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
