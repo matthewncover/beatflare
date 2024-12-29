@@ -1,1 +1,0 @@
-ssh matthew@rpi 'bash -s' < /home/matthew/deploy.sh
